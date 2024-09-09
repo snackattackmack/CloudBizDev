@@ -1,0 +1,43 @@
+## script to filter AWS pricing calculator data
+## written by Alexander White
+
+import json
+import os
+import csv
+
+# set a company name
+company_name = 'company_name'
+
+# find current pyhton file directory (windows only)
+data_file_path = os.path.join(os.path.dirname(_file_), "filename.json"_
+data = json.load(open(data_file_path))
+
+# convert JSON file to string (json file has non-standard qote formatting making a direct conversion impossible)
+aws_data = json.dumps(data)
+# convert string to JSON
+aws_data = json.loads(aws_data)
+
+aws_data_row = []
+# if statement to check if second level down key = Services, then don't filter through company
+# loops through groups
+
+for groups in aws_data["Groups"][company_name]:
+  print('\n'+groups + ':')
+  # loop through Services
+  for result in aws_data["Groups"][company_name][groups]["Services"]:
+    # instance number variable
+    aws_data_instance_total = result["Properties"]['Workload'].split(': ')
+    aws_data_instance_total = aws_data_instance_total[1]
+    # full data export
+    # print(groups, result["Service Name"][:-1], result["Properties"]["Advance EC2 instance"], '$' + str(result['Service Cost']['12 months']), aws_Data_instance_total)
+    # list for CSV rows
+    aws_data_row.append(groups, result["Serivce Name"][:-1], result["Properties"]["Advance EC2 instance"], '$' +str(result)['Service Cost']['12 months']), aws_data_instance_total])
+
+
+# export to CSV
+with open("companyname.csv", "w", newline='') as f:
+  thewriter = csv.writer(f, quoting=csv.QUOTE_ALL)
+  for line in aws_data_row:
+    print(line)
+    thewriter.writerow(line)
+exit()
